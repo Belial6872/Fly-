@@ -1,0 +1,317 @@
+import time
+import pygame
+from pygame.locals import *
+from sys import exit
+import random
+import pygame.camera
+from pygame.locals import *
+
+pygame.init()
+pygame.camera.init()
+
+class Block():
+    def __init__(self, a, b):
+        self.g1 = a
+        self.g2 = b
+        self.player2_x = 0
+        self.player2_y = 0
+
+    def drows(self):
+        self.player2_x = self.g2*50.
+        self.player2_y = self.g1*50.
+
+    def xx(self):
+        return self.player2_x
+
+    def yy(self):
+        return self.player2_y
+
+
+screen = pygame.display.set_mode((600, 500), 0, 32)
+pygame.display.set_caption("Лабиринт")
+lllllll = []
+for i in range(0, 9):
+    i = Block(i, 0)
+    i.drows()
+    lllllll.append(i)
+lll = [lllllll]
+llll = []
+lllll = []
+j = 1
+
+# Создание точки
+back = pygame.Surface((600, 500))
+background = back.convert()
+background.fill((255, 255, 255))
+
+player = pygame.Surface((5, 5), pygame.SRCALPHA)
+player1 = player.convert()
+player1.fill((0, 0, 0))
+
+
+player5 = pygame.Surface((25, 25), pygame.SRCALPHA)
+player5 = player5.convert()
+player5.fill((10, 20, 30))
+
+COLORR = (229, 128, 28, 120)
+player2 = pygame.Surface((50, 50))
+player2 = player2.convert_alpha()
+player2.fill(COLORR)
+
+if j < 3:
+    player3 = pygame.Surface((30, 30))
+    player3 = player3.convert_alpha()
+    player3.fill((0, 128, 0, 185))
+    player3_x = 570.
+    player3_y = 0.
+
+for i in range(0, 9):
+        i = Block(i, 0)
+        i.drows()
+        llll.append(i)
+
+for i in range(10, 1, -1):
+        i = Block(i, 2)
+        i.drows()
+        llll.append(i)
+
+for i in range(0, 1):
+        i = Block(i, 3)
+        i.drows()
+        llll.append(i)
+
+for i in range(2, 8):
+        i = Block(i, 4)
+        i.drows()
+        llll.append(i)
+
+for i in range(4, 5):
+        i = Block(i, 5)
+        i.drows()
+        llll.append(i)
+
+for i in range(0, 3):
+        i = Block(i, 6)
+        i.drows()
+        llll.append(i)
+
+for i in range(6, 10):
+        i = Block(i, 6)
+        i.drows()
+        llll.append(i)
+
+for i in range(0, 5):
+        i = Block(i, 7)
+        i.drows()
+        llll.append(i)
+
+for i in range(0, 1):
+        i = Block(i, 8)
+        i.drows()
+        llll.append(i)
+
+for i in range(4, 5):
+        i = Block(i, 8)
+        i.drows()
+        llll.append(i)
+
+for i in range(8, 4, -1):
+        i = Block(i, 8)
+        i.drows()
+        llll.append(i)
+
+for i in range(6, 4, -1):
+        i = Block(i, 9)
+        i.drows()
+        llll.append(i)
+
+for i in range(10, 9, -1):
+        i = Block(i, 10)
+        i.drows()
+        llll.append(i)
+
+for i in range(3, 0, -1):
+        i = Block(i, 10)
+        i.drows()
+        llll.append(i)
+
+for i in range(10, 0, -1):
+        i = Block(i, 11)
+        i.drows()
+        llll.append(i)
+
+for i in range(9, 7, -1):
+        i = Block(i, 10)
+        i.drows()
+        llll.append(i)
+
+for i in range(2, 1, -1):
+        i = Block(i, 9)
+        i.drows()
+        llll.append(i)
+
+for i in range(0, 9):
+    i = Block(i, 0)
+    i.drows()
+    lllll.append(i)
+
+pygame.font.init()
+lll.append(llll)
+lll.append(lllll)
+
+
+# some definitions
+player1_x = 10.
+player1_y = 462.
+player1_moveX = 0.
+player1_moveY = 0.
+
+player5_x = 462.
+player5_y = 10.
+player5_moveX = 1.
+player5_moveY = 1.
+
+# clock and font objects
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("calibri", 40)
+
+play = "y"
+while play == "y":
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_w:
+                player1_moveY = -3
+            elif event.key == K_s:
+                player1_moveY = 3
+            elif event.key == K_a:
+                player1_moveX = -3
+            elif event.key == K_d:
+                player1_moveX = 3
+        elif event.type == KEYUP:
+            if event.key == K_w:
+                player1_moveY = 0.
+            elif event.key == K_s:
+                player1_moveY = 0.
+            elif event.key == K_a:
+                player1_moveX = 0.
+            elif event.key == K_d:
+                player1_moveX = 0.
+    if j < 3:
+        for i in lll[j]:
+            if i.xx() <= player1_x <= i.xx() + 25 and i.yy() + 50 >= player1_y >= i.yy():
+                player1_moveX = 0.
+                player1_moveY = 0.
+            elif i.xx() <= player1_x <= i.xx() + 50 and i.yy() + 50 >= player1_y >= i.yy():
+                player1_moveX = 0.
+                player1_moveY = 0.
+
+    if player5_x < player1_x:
+        player5_x += player5_moveX
+    if player5_x > player1_x:
+        player5_x -= player5_moveX
+    if player5_y < player1_y:
+        player5_y += player5_moveY
+    if player5_y > player1_y:
+        player5_y -= player5_moveY
+
+    player1_y += player1_moveY
+    player1_x += player1_moveX
+
+    time_passed = clock.tick(60)
+    time_sec = time_passed / 1000.0
+
+    if player1_x < 0 or player1_x >= 599:
+        player1_x = 455.
+        player1_y = 5.
+    if player1_y < 0 or player1_y >= 500:
+        player1_x = 455.
+        player1_y = 5.
+
+    if player5_x <= player1_x <= player5_x + 13 and player5_y + 25 >= player1_y >= player5_y:
+        j -= 1
+        player1_x = 5.
+        player1_y = 496.
+        player5_x = 462.
+        player5_y = 10.
+    elif player5_x <= player1_x <= player5_x + 25 and player5_y + 25 >= player1_y >= player5_y:
+        j -= 1
+        player1_x = 5.
+        player1_y = 496.
+        player5_x = 462.
+        player5_y = 10.
+
+    if j < 3:
+        if player3_x <= player1_x <= player3_x + 15 and player3_y + 30 >= player1_y >= player3_y:
+            j += 1
+            player1_x = 5.
+            player1_y = 496.
+            player5_x = 462.
+            player5_y = 10.
+        elif player3_x <= player1_x <= player3_x + 30 and player3_y + 30 >= player1_y >= player3_y:
+            j += 1
+            player1_x = 5.
+            player1_y = 496.
+            player5_x = 462.
+            player5_y = 10.
+
+    if j == 1:
+        COLORR = (229, 128, 28, 120)
+    if j == 2:
+        COLORR = (0, 0, 250, 120)
+    if j == 0:
+        COLORR = (250, 30, 30, 120)
+    player2 = pygame.Surface((50, 50))
+    player2 = player2.convert_alpha()
+    player2.fill(COLORR)
+
+    if j < 3:
+        player3 = pygame.Surface((30, 30))
+        player3 = player3.convert_alpha()
+        player3.fill((0, 128, 0, 185))
+        player3_x = 570.
+        player3_y = 0.
+    else:
+        player3 = pygame.Surface((1, 1))
+
+
+    Colorr = (255,255,255)
+    if j >= 3:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((200, 1, 0))
+        Colorr = (230, 230, 0)
+    if j == 0:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((141, 2, 31))
+    if j == 2:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((177 , 177, 255))
+    if j == 1:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((255, 255, 255))
+
+    screen.blit(background, (0, 0))
+    pygame.draw.rect(screen, Colorr, Rect((1, 1), (600, 500)), 2)
+    screen.blit(player1, (player1_x, player1_y))
+    screen.blit(player3, (player3_x, player3_y))
+    screen.blit(player5, (player5_x, player5_y))
+
+    if j < 3:
+        for i in lll[j]:
+            screen.blit(player2, (i.xx(), i.yy()))
+    else:
+        pygame.font.init()
+        font = pygame.font.Font(None, 72)
+        text = font.render(
+            "ПОЗДРАВЛЯЕМ!", True, (160, 200, 0))
+        place = (100, 220)
+        screen.blit(text, place)
+
+
+    pygame.display.update()
