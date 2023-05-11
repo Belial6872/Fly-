@@ -1,0 +1,395 @@
+import time
+import pygame
+from pygame.locals import *
+from sys import exit
+import random
+import pygame.camera
+from pygame.locals import *
+
+###########################
+
+
+pygame.init()
+pygame.camera.init()
+
+
+###########################
+
+class Block():
+    def __init__(self, a, b):
+        self.g1 = a
+        self.g2 = b
+        self.blok_x = 0
+        self.blok_y = 0
+
+    def drows(self):
+        self.blok_x = self.g2*50.
+        self.blok_y = self.g1*50.
+
+    def xx(self):
+        return self.blok_x
+
+    def yy(self):
+        return self.blok_y
+
+
+###########################
+
+
+screen = pygame.display.set_mode((600, 500), 0, 32)
+pygame.display.set_caption("Лабиринт")
+pygame.font.init()
+j = 10
+
+###########################
+if j == 10:
+    font = pygame.font.Font(None, 50)
+    text = font.render("Приветствуем вас, Воин!", True, (237, 216, 189))
+    place = (90, 100)
+    font1 = pygame.font.Font(None, 30)
+    text1 = font1.render("Вы — одна из мух Вельзевула, которой", True, (237, 216, 189))
+    place1 = (99, 185)
+    text2 = font1.render("была дана возможность пробраться в рай.", True, (237, 216, 189))
+    place2 = (85, 215)
+    font3 = pygame.font.Font(None, 30)
+    text3 = font3.render("Но остерегайтесь ПАУКА, иначе попадёте в АД!", True, (139, 87, 96))
+    place3 = (60, 245)
+    text4 = font1.render("Вам будут также препятствовать липкие ленты.", True, (237, 216, 189))
+    place4 = (62, 275)
+    text5 = font1.render("Из их плена НЕВОЗМОЖНО выбраться!", True, (139, 87, 96))
+    place5 = (99, 305)
+
+    text6 = font1.render("Нажмите W чтобы начать", True, (237, 216, 189))
+    place6 = (165, 450)
+
+    back = pygame.Surface((600, 500))
+    background = back.convert()
+    background.fill((59, 49, 60))
+
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont("calibri", 40)
+
+    play = "y"
+    while play == "y" and j == 10:
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+            if event.type == KEYDOWN:
+                if event.key == K_w:
+                    j = 1
+
+            ###########################
+            time_passed = clock.tick(60)
+            time_sec = time_passed / 1000.0
+            ###########################
+
+            screen.blit(background, (0, 0))
+            screen.blit(text, place)
+            screen.blit(text1, place1)
+            screen.blit(text2, place2)
+            screen.blit(text3, place3)
+            screen.blit(text4, place4)
+            screen.blit(text5, place5)
+            screen.blit(text6, place6)
+
+            pygame.display.update()
+
+###########################
+
+pygame.mixer.music.load('OST.mp3')
+pygame.mixer.music.play()
+sound1 = pygame.mixer.Sound('Hell_OST.mp3')
+sound2 = pygame.mixer.Sound('screap.mp3')
+sound3 = pygame.mixer.Sound('flesh.mp3')
+
+levels = []
+
+level0= [ [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0],
+          [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0],
+          [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+          [0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
+          [0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+          [0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0],
+          [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0],
+          [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0],
+          [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+          [0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1] ]
+level0_s = []
+for b in range (len(level0)):
+    for i in range (len(level0[b])):
+        if level0[b][i] == 1:
+            i = Block(b, i)
+            i.drows()
+            level0_s.append(i)
+levels.append(level0_s)
+
+
+level1= [ [1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0],
+          [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
+          [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1],
+          [1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1],
+          [1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1],
+          [1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1],
+          [1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+          [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
+          [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1],
+          [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1] ]
+level1_s = []
+for b in range (len(level1)):
+    for i in range (len(level1[b])):
+        if level1[b][i] == 1:
+            i = Block(b, i)
+            i.drows()
+            level1_s.append(i)
+levels.append(level1_s)
+
+
+level2 = [[0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+          [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0],
+          [0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+          [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+          [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+          [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+          [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+          [0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+          [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+          [0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1]]
+level2_s = []
+for b in range (len(level2)):
+    for i in range (len(level2[b])):
+        if level2[b][i] == 1:
+            i = Block(b, i)
+            i.drows()
+            level2_s.append(i)
+levels.append(level2_s)
+
+
+###########################
+
+
+back = pygame.Surface((600, 500))
+background = back.convert()
+background.fill((234, 239, 233))
+
+player = pygame.Surface((6, 6), pygame.SRCALPHA)
+Fly = player.convert()
+Fly.fill((53, 53, 58))
+
+Spider = pygame.Surface((25, 25), pygame.SRCALPHA)
+Spider = Spider.convert()
+Spider.fill((13, 39, 58))
+
+COLORR = (219, 88, 0, 170)
+blok = pygame.Surface((50, 50))
+blok = blok.convert_alpha()
+blok.fill(COLORR)
+
+if j < 3:
+    win = pygame.Surface((30, 30))
+    win = win.convert_alpha()
+    win.fill((150,170,159, 230))
+    win_x = 570.
+    win_y = 0.
+
+Fly_x = 10.
+Fly_y = 462.
+Fly_moveX = 0.
+Fly_moveY = 0.
+
+Spider_x = 462.
+Spider_y = 10.
+Spider_moveX = 1.
+Spider_moveY = 1.
+
+
+###########################
+
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("calibri", 40)
+
+###########################
+
+play = "y"
+while play == "y":
+
+    if j != 1 and j != 2 and j != 3:
+        pygame.mixer.music.pause()
+        sound1.play()
+    else:
+        sound1.stop()
+        pygame.mixer.music.unpause()
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_w:
+                Fly_moveY = -3
+            elif event.key == K_s:
+                Fly_moveY = 3
+            elif event.key == K_a:
+                Fly_moveX = -3
+            elif event.key == K_d:
+                Fly_moveX = 3
+        elif event.type == KEYUP:
+            if event.key == K_w:
+                Fly_moveY = 0.
+            elif event.key == K_s:
+                Fly_moveY = 0.
+            elif event.key == K_a:
+                Fly_moveX = 0.
+            elif event.key == K_d:
+                Fly_moveX = 0.
+
+    #Blocks
+    if j < 3:
+        for i in levels[j]:
+            if i.xx() <= Fly_x <= i.xx() + 25 and i.yy() + 50 >= Fly_y >= i.yy():
+                sound2.set_volume(0.35)
+                sound2.play()
+                Fly_moveX = 0.
+                Fly_moveY = 0.
+            elif i.xx() <= Fly_x <= i.xx() + 50 and i.yy() + 50 >= Fly_y >= i.yy():
+                sound2.set_volume(0.35)
+                sound2.play()
+                Fly_moveX = 0.
+                Fly_moveY = 0.
+    # Blocks
+
+    # Spider
+    if Spider_x < Fly_x:
+        Spider_x += Spider_moveX
+    if Spider_x > Fly_x:
+        Spider_x -= Spider_moveX
+    if Spider_y < Fly_y:
+        Spider_y += Spider_moveY
+    if Spider_y > Fly_y:
+        Spider_y -= Spider_moveY
+    # Spider
+
+    # Move
+    Fly_y += Fly_moveY
+    Fly_x += Fly_moveX
+    # Move
+
+    # Frame
+    if Fly_x <= 0 or Fly_x >= 600:
+        Fly_x = 5.
+        Fly_y = 465.
+    if Fly_y <= 0 or Fly_y >= 500:
+        Fly_x = 5.
+        Fly_y = 465.
+    # Frame
+
+    # Spider
+    if Spider_x <= Fly_x <= Spider_x + 13 and Spider_y + 25 >= Fly_y >= Spider_y:
+        sound2.stop()
+        pygame.mixer.music.pause()
+        sound3.set_volume(1)
+        sound3.play()
+        time.sleep(2)
+        j -= 1
+        Fly_x = 5.
+        Fly_y = 496.
+        Spider_x = 462.
+        Spider_y = 10.
+    elif Spider_x <= Fly_x <= Spider_x + 25 and Spider_y + 25 >= Fly_y >= Spider_y:
+        sound2.stop()
+        pygame.mixer.music.pause()
+        sound3.set_volume(1)
+        sound3.play()
+        time.sleep(2)
+        j -= 1
+        Fly_x = 5.
+        Fly_y = 496.
+        Spider_x = 462.
+        Spider_y = 10.
+    # Spider
+
+    # Win
+    if j < 3:
+        if win_x <= Fly_x <= win_x + 18 and win_y + 36 >= Fly_y >= win_y:
+            j += 1
+            Fly_x = 5.
+            Fly_y = 496.
+            Spider_x = 462.
+            Spider_y = 10.
+        elif win_x <= Fly_x <= win_x + 36 and win_y + 36 >= Fly_y >= win_y:
+            j += 1
+            Fly_x = 5.
+            Fly_y = 496.
+            Spider_x = 462.
+            Spider_y = 10.
+    # Win
+
+    if j == 1:
+        COLORR = (219, 88, 0, 170)
+    if j == 2:
+        COLORR = (0, 0, 250, 170)
+    if j == 0:
+        COLORR = (250, 30, 30, 170)
+    blok = pygame.Surface((50, 50))
+    blok = blok.convert_alpha()
+    blok.fill(COLORR)
+
+    if j < 3:
+        win = pygame.Surface((30, 30))
+        win = win.convert_alpha()
+        win.fill((30,110,69, 250))
+        win_x = 570.
+        win_y = 0.
+    else:
+        win = pygame.Surface((1, 1))
+
+    Colorr = (255,255,255)
+    if j >= 3:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((200, 1, 0))
+        Colorr = (230, 230, 0)
+    if j == 0:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((141, 2, 31))
+    if j == 2:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((177, 177, 255))
+    if j == 1:
+        back = pygame.Surface((600, 500))
+        background = back.convert()
+        background.fill((234, 239, 233))
+
+    ###########################
+    time_passed = clock.tick(60)
+    time_sec = time_passed / 1000.0
+    ###########################
+
+    screen.blit(background, (0, 0))
+    pygame.draw.rect(screen, Colorr, Rect((0, 0), (601, 501)), 1)
+    screen.blit(Fly, (Fly_x, Fly_y))
+    screen.blit(win, (win_x, win_y))
+    screen.blit(Spider, (Spider_x, Spider_y))
+
+    if j < 3:
+        for i in levels[j]:
+            screen.blit(blok, (i.xx(), i.yy()))
+    else:
+        pygame.font.init()
+        font = pygame.font.Font(None, 72)
+        text = font.render(
+            "ПОЗДРАВЛЯЕМ!", True, (160, 200, 0))
+        place = (100, 220)
+        screen.blit(text, place)
+
+
+    ###########################
+
+    pygame.display.update()
+
+    ###########################
+
+
+
+
